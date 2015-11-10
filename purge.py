@@ -1,6 +1,7 @@
 import shutil
 import os
 
-folder = 'images'
-shutil.rmtree(folder)
-os.makedirs(folder)
+def purge():
+    folder = 'images'
+    shutil.rmtree(folder)
+    os.makedirs(folder)
