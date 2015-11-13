@@ -35,6 +35,37 @@ class TestServer(unittest.TestCase):
             self.fail("couldn't start Ros")
         else:
             launch.kill()
+    
+    def test_checkROS(self):
+        launch = launchROS()
+        time.sleep(5)
+        check = checkROS
+        self.assertTrue(check)
+        launch.kill()
+
+    def test_create_bag(self):
+        try:
+            launch = launchROS()
+            time.sleep(3)
+            img_converter("Test.mp4")
+            create_bag()
+            time.sleep(5)
+            
+        except:
+            self.fail(" create_bag failed to create bag")
+
+    def test_play_bag(self):
+        launch = launchROS()
+        time.sleep(5)
+        try:
+
+            play_bag()
+            #subprocess.Popen(['rosrun', 'image_view', 'image_view', 'image:=/ORB_SLAM/Frame' '_autosize:=true'], stdin = subprocess.PIPE, stderr = subprocess.PIPE, stdout = subprocess.PIPE)
+        except:
+            self.fail("can't find last image")
+        
+        
+
 
     def test_server(self):
         try:
