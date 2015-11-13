@@ -2,8 +2,13 @@ import socket
 import pdb
 import rostopic
 import subprocess
+import time
 from image_converter import img_converter
 from purge import purge
+from ros_scripts import checkROS
+from ros_scripts import launchROS
+from ros_scripts import create_bag
+from ros_scripts import play_bag
 
 s= socket.socket()
 port = 8080
@@ -21,25 +26,15 @@ while True:
         f.write(packet)
         packet = c.recv(1024)
     f.close()
-    print 'Done'
+    print 'Video Received'
     c.close()
+    print 'purge old images...'
     purge()
     img_converter('stored.mp4')
     #check that ROS is running on the server
-    try:
-        rostopic.rosgraph.Master('/rostopic').getPid()
-    except socket.error:
-        try:
-            subprocess.Popen(['roslaunch', 'ORB_SLAM/ExampleGroovyOrNewer.launch'])
-        except error:
-            raise rostopic.ROSTopicIOException("can't communicate with server")
-    try:
-        subprocess.Popen(['rosrun', 'BagFromImages', 'BagFromImages', 'images/', '.png', '30', 'ORB_SLAM/Data/Example.bag']) 
-        subprocess.Popen(['rosbag', 'play', 'ORB_SLAM/Data/Example.bag'])
-    except error:
-        raise rostopic.ROSTopicIOException("can't run ORB_SLAM")
-        
-
-
-
+    print 'checking ROS...'
+    checkROS()
+    time.sleep(20)
+    create_bag()
+    play_bag()
 
