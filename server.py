@@ -29,7 +29,7 @@ while True:
     print 'Video Received'
     c.close()
     print 'purge old images...'
-    purge()
+    purge('images')
     img_converter('stored.mp4')
     #check that ROS is running on the server
     print 'checking ROS...'
